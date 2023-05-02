@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      .companies-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .company {
+        border: 1px solid;
+        max-width: 240px;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Eldomall Client</h1>
+    <div class="companies-container"></div>
+
+    <script>
+      // creating Promises -- constructor --- OOP....
+      // assyn await || .then
+
+      fetch("https://restcountries.com/v3.1/independent?status=true")
+        .then((res) => res.json())
+        .then((data) => {
+          //   console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      // axios -- install/cdn
+
+      // async await -- try - catch block
+
+      async function getCompaniesData() {
+        try {
+          const res = await fetch("http://127.0.0.1:3005/companies");
+          const data = await res.json();
+          console.log(data);
+          renderCompanies(data.companies);
+        } catch (err) {
+          // tell the user that a problem occurred
+          console.log(err);
+        }
+      }
+
+      function renderCompanies(companies) {
+        // dom code
+        companies.forEach((company) => {
+          let headingOne = document.createElement("h1");
+          headingOne.textContent = company.id;
+
+          let headingTwo = document.createElement("h2");
+          headingTwo.textContent = company.name;
+
+          let paragraph = document.createElement("p");
+          paragraph.textContent = company.location;
+
+          let companyContainer = document.createElement("div");
+          companyContainer.classList.add("company");
+          companyContainer.append(headingOne);
+          companyContainer.append(headingTwo);
+          companyContainer.append(paragraph);
+
+          document
+            .querySelector(".companies-container")
+            .append(companyContainer);
+        });
+      }
+
+      getCompaniesData();
+
+      // errors ????
+    </script>
+  </body>
+</html>
