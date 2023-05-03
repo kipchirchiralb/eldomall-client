@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Company</title>
+  </head>
+  <body>
+    <h1>Add new Company</h1>
+
+    <form action="">
+      <label for="id">ID</label> <br />
+      <input type="text" name="id" id="id" required /> <br />
+      <br />
+
+      <label for="name">NAME</label> <br />
+      <input type="text" name="name" id="name" required /> <br />
+      <br />
+
+      <label for="location">LOCATION</label> <br />
+      <input type="text" name="location" id="location" required /> <br />
+      <br />
+
+      <input type="submit" value="Save Company" />
+    </form>
+
+    <script>
+      // get, post, put, patch, delete  --- http methods
+
+      // await keyword only works inside an async  function
+
+      async function addNewCompany(company) {
+        try {
+          let response = await fetch("http://127.0.0.1:3005/companies", {
+            method: "POST",
+            body: JSON.stringify(company),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          let data = await response.json();
+          console.log(data);
+          return data;
+        } catch (error) {
+          console.log(error);
+          return error;
+          //
+        }
+      }
+
+      document.querySelector("form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        addNewCompany({
+          id: document.getElementById("id").value,
+          name: document.getElementById("name").value,
+          location: document.getElementById("location").value,
+        });
+        e.target.reset();
+      });
+    </script>
+  </body>
+</html>
